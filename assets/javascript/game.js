@@ -1,5 +1,13 @@
-// assign health points to each fighter
-// assign attack points to each fighter
+// assign health points & attack points to each fighter
+var mamaAttack = 8;
+var mamaHP = 120;
+var vtAttack = 5;
+var vtHP = 100;
+var piperAttack = 20;
+var piperHP = 150;
+var macAttack = 25;
+var macHP = 180;
+
 // upon selection of fighter, move remaining 3 fighters to "enemies available to attack" area
 // upon selection of defender, move selected defender to "defender" area
 // when attack button is pressed, reduce HP on defender & attacker per original values
@@ -17,3 +25,27 @@
 // Vault-Tec 100 / 5
 // Piper 150 / 20
 // Maccready 180 / 25 
+
+
+$(document).ready(function () {
+
+    // offer option to play background music
+    var audioElement = document.createElement("audio");
+    audioElement.setAttribute("src", "assets/sounds/music.mp3");
+    $(".theme-button").on("click", function () {
+        audioElement.play();
+    });
+    $(".pause-button").on("click", function () {
+        audioElement.pause();
+    });
+
+
+    $(".fighter").on('click', function () {
+        var clickedFighter = $(this).val();
+        console.log('clickedFighter', clickedFighter);
+        fighter = clickedFighter;
+        $("#chosen").html("<img src=\"assets/images/" + fighter + ".png\" class=\"" + fighter + "\">");
+        $("." + fighter).empty();
+    });
+
+});

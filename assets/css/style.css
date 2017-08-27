@@ -1,3 +1,27 @@
+* {
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    [class*="col-"] {
+        width: 100%;
+    }
+}
+
+@media print {
+    body {
+        background-color: #fff;
+        background-image: hide;
+    }
+}
+
 body {
     background-image: url("../images/fallout4.jpg");
     background-position: center center;
@@ -5,3 +29,19 @@ body {
     background-size: cover;
     background-attachment: fixed;
 }
+h1 {
+    font-family: 'Dancing Script', cursive;
+    text-align: right;
+    text-shadow: 2px 2px 4px #ffde89;
+    font-size: 48px;
+}
+button {
+    margin: 10px;
+    padding: 10px;
+    background-color: #ffde89;
+    border: 1px solid #000;
+}
+/* need to fix flow on background of columns */
+/* make bg behind enemies & chosen different color */
+/* fix column layout to keep small to the right */
+/* fix play & pause buttons to just show icons */
