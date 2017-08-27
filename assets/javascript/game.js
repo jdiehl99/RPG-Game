@@ -84,7 +84,7 @@ $(document).ready(function () {
         // move remaining fighters to defender section
         // run for loop on updated array
         for (j = 0; j < activeFighters.length; j++) {
-            var activeFightersBtn = $("<button><img src=\"assets/images/" + activeFighters[j].fighter + ".png\" class=" + activeFighters[j].fighter + "><p class=" + activeFighters[j].fighter + " text-center\">" + activeFighters[j].hp + "</p>")
+            var activeFightersBtn = $("<button id="+activeFighters[j].fighter+"><img src=\"assets/images/" + activeFighters[j].fighter + ".png\" class=" + activeFighters[j].fighter + "><p class=" + activeFighters[j].fighter + " text-center\">" + activeFighters[j].hp + "</p>")
                 .addClass("defender " + activeFighters[j].fighter)
                 .attr("value", activeFighters[j].fighter)
                 .attr("attack-val", activeFighters[j].attack)
@@ -96,9 +96,6 @@ $(document).ready(function () {
         $(".defender").on('click', function () {
             var clickedDefender = $(this).val();
             defenderA = clickedDefender;
-            console.log("chosen defender", defenderA);
-            // remove defender from enemies block
-          //  $('#enemies').find('*').not('.' + defenderA + '').remove();
 
             // update array to remove chosen fighter
             var isplice = activeFighters.findIndex(kk => kk.fighter === defenderA);
@@ -106,11 +103,8 @@ $(document).ready(function () {
             if (i != -1) {
                 activeFighters.splice(isplice, 1);
             }
-console.log(activeFighters);
+            $("#"+defenderA).appendTo("#defender");
         });
-
-        // move selected enemy to defender section
-        //  $("."link-field-first-ticket-button"").appendTo(".event-location-one");
 
     });
 });
