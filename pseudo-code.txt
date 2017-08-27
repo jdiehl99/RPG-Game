@@ -13,3 +13,8 @@ game continues until player has lost all HP or all defenders have been defeated
 upon game end, all fighters are reset to original locations and all attack/HP points are reset to original values
 
 if player presses attack with no defender selected, show error message
+
+
+need array to hold fighters
+once selected, array will need to remove selected fighter
+as each defender is defeated, array will need to udpate again

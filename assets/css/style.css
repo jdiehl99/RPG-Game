@@ -35,13 +35,23 @@ h1 {
     text-shadow: 2px 2px 4px #ffde89;
     font-size: 48px;
 }
-button {
-    margin: 10px;
-    padding: 10px;
+p {
+    margin:0;
+}
+button.fighter {
     background-color: #ffde89;
     border: 1px solid #000;
+    padding: 10px;
+    margin: 10px;
+}
+button.defender {
+    background-color: red;
+    border: 1px solid #000;
+    padding: 10px;
+    margin: 10px;
 }
 /* need to fix flow on background of columns */
 /* make bg behind enemies & chosen different color */
 /* fix column layout to keep small to the right */
 /* fix play & pause buttons to just show icons */
+/* add dogmeat as favico */
