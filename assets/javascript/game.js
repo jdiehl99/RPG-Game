@@ -106,11 +106,12 @@ $(document).ready(function () {
         gunElement.play();
         damAttack(defenderHP, defenderAtt, playerHP, playerAtt, playerAttCurr);
         if (playerHP <= 0) { // player loses, game over
-            alert("You lost!");
+            $("#gamestatus").html("<p class=\"status\">You Lost!!</p><input type=\"button\" value=\"Restart\" onClick=\"window.location.reload()\">");
+           
         } else if (defenderHP <= 0) {
             if (activeFighters.length == 0) { // are there any enemies left?
                 $('#defender').empty();
-                alert("You win!!");
+                $("#gamestatus").html("<p class=\"status\">You Win!!</p><input type=\"button\" value=\"Restart\" onClick=\"window.location.reload()\">");
             } else {
                 //  alert("Defender lost!");
                 $('#defender').empty();
