@@ -44,7 +44,7 @@ button.fighter {
     padding: 10px;
     margin: 10px;
 }
-button.defender {
+button.defender,button.defender2,button.defender3 {
     background-color: red;
     border: 1px solid #000;
     padding: 10px;
@@ -57,6 +57,6 @@ button.defender {
 img {
     height: 100px;
 }
-
-/* fix play & pause buttons to just show icons */
-/* add dogmeat as favico */
+.btn-xs {
+    font-size: 10px;
+}

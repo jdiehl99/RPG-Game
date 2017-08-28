@@ -3,9 +3,11 @@ var playerAtt = 0;
 var playerHP = 0;
 var defenderAtt = 0;
 var defenderHP = 0;
+var playerAttCurr = 0;
 var fighterA = "";
 var defenderA = "";
-var playerAttCurr = "";
+var defenderB = "";
+var defenderC = "";
 
 var playerChoices = [
     { "fighter": "maccready", "attack": "25", "hp": "180" },
@@ -21,21 +23,19 @@ var activeFighters = [ // working array for enemies
     { "fighter": "vault_tec", "attack": "5", "hp": "100" }
 ];
 
-function damIncrease(attAP,attCurr) {
+function damAttack(defHP, defAP, attHP, attAP, attCurr) {
     playerAttCurr = parseInt(attAP) + parseInt(attCurr);
-    console.log("player current attack",playerAttCurr);
-}
-
-function damAttack(defHP,defAP,attHP,attAP,attCurr) {
-    defenderHP = parseInt(defHP) - parseInt(attAP);
+    defenderHP = parseInt(defHP) - playerAttCurr;
     playerHP = parseInt(attHP) - parseInt(defAP);
 }
 
 $(document).ready(function () {
-
     // offer option to play background music
     var audioElement = document.createElement("audio");
     audioElement.setAttribute("src", "assets/sounds/music.mp3");
+    var gunElement = document.createElement("audio");
+    gunElement.setAttribute("src", "assets/sounds/SuperSledge.mp3");
+
     $(".theme-button").on("click", function () {
         audioElement.play();
     });
@@ -45,6 +45,7 @@ $(document).ready(function () {
 
     // create buttons for each fighter
     for (i = 0; i < playerChoices.length; i++) {
+        console.log(playerChoices);
         var playerChoicesBtn = $("<button><img src=\"assets/images/" + playerChoices[i].fighter + ".png\" class=" + playerChoices[i].fighter + "><p class=\"hp-" + playerChoices[i].fighter + " " + playerChoices[i].fighter + " text-center\">" + playerChoices[i].hp + "</p>")
             .addClass("fighter " + playerChoices[i].fighter)
             .attr("value", playerChoices[i].fighter)
@@ -64,9 +65,14 @@ $(document).ready(function () {
         if (i != -1) {
             activeFighters.splice(isplice, 1);
         }
-        $(".fighter").each(function(){
+        $(".fighter").each(function () {
             $(this).off("click");
-        })
+        });
+
+        playerAtt = $("." + fighterA).attr('attack-val');
+        playerAttCurr = 0;
+        console.log("attcur line 75", playerAttCurr);
+        playerHP = $("." + fighterA).attr('hp-val');
 
         // move remaining fighters to defender section
         // run for loop on updated array
@@ -78,7 +84,6 @@ $(document).ready(function () {
                 .attr("hp-val", activeFighters[j].hp);
             $("#enemies").append(activeFightersBtn);
         }
-
         // select a defender
         $(".defender").on('click', function () {
             var clickedDefender = $(this).val();
@@ -90,35 +95,75 @@ $(document).ready(function () {
             }
             $("#" + defenderA).appendTo("#defender");
 
-            playerAtt = $("." + fighterA).attr('attack-val');
-            playerAttCurr = $("." + fighterA).attr('attack-val');
-            playerHP = $("." + fighterA).attr('hp-val');
             defenderAtt = $("." + defenderA).attr('attack-val');
             defenderHP = $("." + defenderA).attr('hp-val');
-
+            defenderDisplay = defenderA;
         });
     });
 
     // take action when attack is pressed
-    $(".btn-attack").on("click",function () {
-
-        console.log("fighterA",fighterA);
-        console.log("defenderA",defenderA);
-
-        console.log("player attack", playerAtt);
-        console.log("defender attack", defenderAtt);
-
-        damIncrease(playerAtt,playerAttCurr);
-        damAttack(defenderHP,defenderAtt,playerHP,playerAtt);
-
+    $(".btn-attack").on("click", function () {
+        gunElement.play();
+        damAttack(defenderHP, defenderAtt, playerHP, playerAtt, playerAttCurr);
         if (playerHP <= 0) { // player loses, game over
             alert("You lost!");
         } else if (defenderHP <= 0) {
-            alert("Defender lost!");
+            if (activeFighters.length == 0) { // are there any enemies left?
+                $('#defender').empty();
+                alert("You win!!");
+            } else {
+                //  alert("Defender lost!");
+                $('#defender').empty();
+                $('#enemies').empty();
+                $("#gamestatus").html("<p class=\"status\">You have defeated " + defenderDisplay + ". You may choose a new enemy.</p>");
+
+                // determine if this is last defender
+                if (activeFighters.length == 1) { // yes last defender 
+                    // run for loop on remaining enemies array
+                    for (l = 0; l < activeFighters.length; l++) {
+                        var activeFightersBtn = $("<button id=" + activeFighters[l].fighter + "><img src=\"assets/images/" + activeFighters[l].fighter + ".png\" class=" + activeFighters[l].fighter + "><p class=\"hp-" + activeFighters[l].fighter + " " + activeFighters[l].fighter + " text-center\">" + activeFighters[l].hp + "</p>")
+                            .addClass("defender2 " + activeFighters[l].fighter)
+                            .attr("value", activeFighters[l].fighter)
+                            .attr("attack-val", activeFighters[l].attack)
+                            .attr("hp-val", activeFighters[l].hp);
+                        $("#enemies").append(activeFightersBtn);
+                        defenderC = activeFighters[l].fighter;
+                    }
+                    activeFighters.pop();
+                    defenderDisplay = defenderC;
+                    defenderAtt = $("." + defenderC).attr('attack-val');
+                    defenderHP = $("." + defenderC).attr('hp-val');
+                } else { // not last defender
+                    // run for loop on remaining enemies array
+                    for (k = 0; k < activeFighters.length; k++) {
+                        var activeFightersBtn = $("<button id=" + activeFighters[k].fighter + "><img src=\"assets/images/" + activeFighters[k].fighter + ".png\" class=" + activeFighters[k].fighter + "><p class=\"hp-" + activeFighters[k].fighter + " " + activeFighters[k].fighter + " text-center\">" + activeFighters[k].hp + "</p>")
+                            .addClass("defender2 " + activeFighters[k].fighter)
+                            .attr("value", activeFighters[k].fighter)
+                            .attr("attack-val", activeFighters[k].attack)
+                            .attr("hp-val", activeFighters[k].hp);
+                        $("#enemies").append(activeFightersBtn);
+                    }
+                    // select a defender
+                    $(".defender2").on('click', function () {
+                        var clickedDefender = $(this).val();
+                        defenderB = clickedDefender;
+                        console.log("defender B", defenderB);
+                        // update array to remove chosen fighter
+                        var isplice = activeFighters.findIndex(kk => kk.fighter === defenderB);
+                        if (i != -1) {
+                            activeFighters.splice(isplice, 1);
+                        }
+                        $("#" + defenderB).appendTo("#defender");
+                        defenderDisplay = defenderB;
+                        defenderAtt = $("." + defenderB).attr('attack-val');
+                        defenderHP = $("." + defenderB).attr('hp-val');
+                    });
+                }
+            }
         } else {
-            $("#gamestatus").html("<p class=\"status\">You attacked " + defenderA + " for " + playerAttCurr + " damage.</p><p class=\"status\">" + defenderA + " attacked you for " + defenderAtt + " damage.</p>");
+            $("#gamestatus").html("<p class=\"status\">You attacked " + defenderDisplay + " for " + playerAttCurr + " damage.</p><p class=\"status\">" + defenderDisplay + " attacked you for " + defenderAtt + " damage.</p>");
             $(".hp-" + fighterA).html("<p class=\"hp-" + fighterA + " " + fighterA + " text-center\">" + playerHP + "</p>");
-            $(".hp-" + defenderA).html("<p class=\"hp-" + defenderA + " " + defenderA + " text-center\">" + defenderHP + "</p>");
+            $(".hp-" + defenderDisplay).html("<p class=\"hp-" + defenderDisplay + " " + defenderDisplay + " text-center\">" + defenderHP + "</p>");
         }
     });
 });
