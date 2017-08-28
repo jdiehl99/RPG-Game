@@ -50,8 +50,13 @@ button.defender {
     padding: 10px;
     margin: 10px;
 }
-/* need to fix flow on background of columns */
-/* make bg behind enemies & chosen different color */
-/* fix column layout to keep small to the right */
+.status {
+    color: #000;
+    font-weight: bold;
+}
+img {
+    height: 100px;
+}
+
 /* fix play & pause buttons to just show icons */
 /* add dogmeat as favico */
